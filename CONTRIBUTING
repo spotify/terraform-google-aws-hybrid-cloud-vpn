@@ -1,0 +1,8 @@
+This project adheres to the [Open Code of Conduct][code-of-conduct]. By participating, you are expected to honor this code.
+
+[code-of-conduct]: https://github.com/spotify/code-of-conduct/blob/master/code-of-conduct.md
+
+Docs are updated with `terraform-docs` 
+
+* Terraform-docs can be intalled with brew `brew install terraform-docs`
+* The repo readme can be updated with `terraform-docs --sort-by-required markdown . > README.md`
