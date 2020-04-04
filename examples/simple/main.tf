@@ -37,9 +37,9 @@ module "tgw-us-east-1" {
 }
 
 module "cb-us-east-1" {
-  source                  = "github.com/spotify/terraform-google-aws-hybrid-cloud-vpn"
-  transit_gateway_id      = module.tgw-us-east-1.this_ec2_transit_gateway_id
-  google_network          = default
-  amazon_side_asn         = 64512
-  google_side_asn         = 65534
+  source             = "github.com/spotify/terraform-google-aws-hybrid-cloud-vpn"
+  transit_gateway_id = module.tgw-us-east-1.this_ec2_transit_gateway_id
+  google_network     = default
+  amazon_side_asn    = 64512
+  google_side_asn    = 65534
 }

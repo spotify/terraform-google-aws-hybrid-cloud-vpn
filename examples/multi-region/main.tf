@@ -33,7 +33,7 @@ provider "google" {
 
 provider "google-beta" {
   project = project
-  alias  = "us-central1"
+  alias   = "us-central1"
   region  = "us-central1"
 }
 
@@ -86,17 +86,17 @@ module "tgw-us-east-1" {
 }
 
 module "cb-us-east-1" {
-  source                  = "github.com/spotify/terraform-google-aws-hybrid-cloud-vpn"
-  transit_gateway_id      = module.tgw-us-east-1.this_ec2_transit_gateway_id
-  google_network          = "default"
-  amazon_side_asn         = 64512
-  google_side_asn         = 65534
+  source             = "github.com/spotify/terraform-google-aws-hybrid-cloud-vpn"
+  transit_gateway_id = module.tgw-us-east-1.this_ec2_transit_gateway_id
+  google_network     = "default"
+  amazon_side_asn    = 64512
+  google_side_asn    = 65534
   router_advertise_config = {
     mode = "CUSTOM"
     ip_ranges = {
       "10.0.0.0/8" = "10.0.0.0/8"
     }
-    groups    = null
+    groups = null
 
   }
 
@@ -125,17 +125,17 @@ module "tgw-eu-central-1" {
   }
 }
 module "cb-eu-central-1" {
-  source                  = "github.com/spotify/terraform-google-aws-hybrid-cloud-vpn"
-  transit_gateway_id      = module.tgw-eu-central-1.this_ec2_transit_gateway_id
-  google_network          = "default"
-  amazon_side_asn         = 64513
-  google_side_asn         = 65533
+  source             = "github.com/spotify/terraform-google-aws-hybrid-cloud-vpn"
+  transit_gateway_id = module.tgw-eu-central-1.this_ec2_transit_gateway_id
+  google_network     = "default"
+  amazon_side_asn    = 64513
+  google_side_asn    = 65533
   router_advertise_config = {
     mode = "CUSTOM"
     ip_ranges = {
       "10.0.0.0/8" = "10.0.0.0/8"
     }
-    groups    = null
+    groups = null
 
   }
 
