@@ -153,7 +153,7 @@ resource "google_compute_router" "router" {
 }
 
 resource "google_compute_external_vpn_gateway" "external_gateway" {
-  provider        = "google-beta"
+  provider        = google-beta
   name            = "aws-${var.transit_gateway_id}-${data.aws_region.current.name}-${local.suffix}"
   redundancy_type = "FOUR_IPS_REDUNDANCY"
   description     = "AWS Transit GW: ${var.transit_gateway_id} in AWS region ${data.aws_region.current.name}"
