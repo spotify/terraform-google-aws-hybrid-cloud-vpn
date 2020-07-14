@@ -70,5 +70,6 @@ https://cloud.google.com/vpn/docs/how-to/creating-ha-vpn
 
 | Name | Description |
 |------|-------------|
+| cloud\_router | Map of cloud router attributes. Map should match the exported resources described in the docs https://www.terraform.io/docs/providers/google/r/compute_router.html |
 | ha\_vpn\_gateway\_interfaces | List of objects with interface ID and IP addresses |
 
