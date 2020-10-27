@@ -42,7 +42,7 @@ https://cloud.google.com/vpn/docs/how-to/creating-ha-vpn
 
 | Name | Version |
 |------|---------|
-| aws | <3.0,>= 2.51.0 |
+| aws | <4.0,>= 2.51.0 |
 | google | <4.0,>= 3.11.0 |
 | google-beta | <4.0,>= 3.11.0 |
 
@@ -50,7 +50,7 @@ https://cloud.google.com/vpn/docs/how-to/creating-ha-vpn
 
 | Name | Version |
 |------|---------|
-| aws | <3.0,>= 2.51.0 |
+| aws | <4.0,>= 2.51.0 |
 | google | <4.0,>= 3.11.0 |
 | google-beta | <4.0,>= 3.11.0 |
 | random | n/a |
