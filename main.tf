@@ -135,7 +135,7 @@ resource "google_compute_router" "router" {
         : var.router_advertise_config.groups
       )
     )
-    dynamic advertised_ip_ranges {
+    dynamic "advertised_ip_ranges" {
       for_each = (
         var.router_advertise_config == null ? {} : (
           var.router_advertise_config.mode != "CUSTOM"
@@ -158,7 +158,7 @@ resource "google_compute_external_vpn_gateway" "external_gateway" {
   redundancy_type = "FOUR_IPS_REDUNDANCY"
   description     = "AWS Transit GW: ${var.transit_gateway_id} in AWS region ${data.aws_region.current.name}"
 
-  dynamic interface {
+  dynamic "interface" {
     for_each = local.external_vpn_gateway_interfaces
     content {
       id         = interface.key

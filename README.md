@@ -23,15 +23,15 @@ module "tgw-us-east-1" {
    tags = {
      Purpose = "tgw example"
    }
- }
+}
 
- module "cb-us-east-1" {
-   source                  = "github.com/spotify/terraform-google-aws-hybrid-cloud-vpn"
-   transit_gateway_id      = module.tgw-us-east-1.this_ec2_transit_gateway_id
-   google_network          = default
-   amazon_side_asn         = 64512
-   google_side_asn         = 65534
- }
+module "cb-us-east-1" {
+   source             = "github.com/spotify/terraform-google-aws-hybrid-cloud-vpn"
+   transit_gateway_id = module.tgw-us-east-1.this_ec2_transit_gateway_id
+   google_network     = default
+   amazon_side_asn    = 64512
+   google_side_asn    = 65534
+}
 ```
 
 ### Refrence Docs  
@@ -42,7 +42,7 @@ https://cloud.google.com/vpn/docs/how-to/creating-ha-vpn
 
 | Name | Version |
 |------|---------|
-| aws | <4.0,>= 2.51.0 |
+| aws | <4.0,>= 3.22.0 |
 | google | <4.0,>= 3.11.0 |
 | google-beta | <4.0,>= 3.11.0 |
 
@@ -50,7 +50,7 @@ https://cloud.google.com/vpn/docs/how-to/creating-ha-vpn
 
 | Name | Version |
 |------|---------|
-| aws | <4.0,>= 2.51.0 |
+| aws | <4.0,>= 3.22.0 |
 | google | <4.0,>= 3.11.0 |
 | google-beta | <4.0,>= 3.11.0 |
 | random | n/a |
@@ -72,4 +72,5 @@ https://cloud.google.com/vpn/docs/how-to/creating-ha-vpn
 |------|-------------|
 | cloud\_router | Map of cloud router attributes. Map should match the exported resources described in the docs https://www.terraform.io/docs/providers/google/r/compute_router.html |
 | ha\_vpn\_gateway\_interfaces | List of objects with interface ID and IP addresses |
+| transit\_gateway\_attachment\_ids | Set of AWS Transit Gateway Attachement IDs |
 
