@@ -21,3 +21,11 @@ output "cloud_router" {
   value       = google_compute_router.router
   description = "Map of cloud router attributes. Map should match the exported resources described in the docs https://www.terraform.io/docs/providers/google/r/compute_router.html"
 }
+
+output "transit_gateway_attachment_ids" {
+  description = "Set of AWS Transit Gateway Attachement IDs"
+  value = toset([
+    aws_vpn_connection.vpn-alpha.transit_gateway_attachment_id,
+    aws_vpn_connection.vpn-beta.transit_gateway_attachment_id
+  ])
+}
