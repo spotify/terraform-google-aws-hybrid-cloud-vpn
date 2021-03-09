@@ -29,6 +29,16 @@ variable "amazon_side_asn" {
   description = "BGP ASN Number for the AWS side of the VPN"
 }
 
+variable "aws_vpn_configs" {
+  type        = map(any)
+  description = "AWS Tunnels Configs for aws_vpn_connection. This addresses this [known issue](https://cloud.google.com/network-connectivity/docs/vpn/how-to/creating-ha-vpn). AWS defaults have been set as described in this [AWS FAQ](https://aws.amazon.com/vpn/faqs/)"
+  default = {
+    encryption_algorithms = ["AES128"]
+    integrity_algorithms  = ["SHA1"]
+    dh_group_numbers      = ["2"]
+  }
+}
+
 variable "google_side_asn" {
   type        = number
   default     = 65534
