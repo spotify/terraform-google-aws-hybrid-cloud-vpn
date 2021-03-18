@@ -31,10 +31,10 @@ variable "amazon_side_asn" {
 
 variable "aws_vpn_configs" {
   type        = map(any)
-  description = "AWS Tunnels Configs for aws_vpn_connection. This addresses this [known issue](https://cloud.google.com/network-connectivity/docs/vpn/how-to/creating-ha-vpn). AWS defaults have been set as described in this [AWS FAQ](https://aws.amazon.com/vpn/faqs/)"
+  description = "AWS Tunnels Configs for aws_vpn_connection. This addresses this [known issue](https://cloud.google.com/network-connectivity/docs/vpn/how-to/creating-ha-vpn)."
   default = {
-    encryption_algorithms = ["AES128"]
-    integrity_algorithms  = ["SHA1"]
+    encryption_algorithms = ["AES256"]
+    integrity_algorithms  = ["SHA2-256"]
     dh_group_numbers      = ["2"]
   }
 }

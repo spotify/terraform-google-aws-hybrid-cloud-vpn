@@ -4,7 +4,7 @@ Overview of high-level configurations steps to set up HA VPN with Amazon Web Ser
 * Create the HA VPN gateway and a Cloud Router. This creates 2 public IP addresses on the GCP side.
 * Create two AWS Virtual Private Gateways. This creates 4 public addresses on the AWS side.
 * Create two AWS Site-to-Site VPN connections and customer gateways, one for each AWS Virtual Private Gateway. Specify a non-overlapping link-local Tunnel IP Range for each tunnel, 4 total. For example, 169.254.1.4/30.
-  * Configure AES-128, SHA-1 and DH group 2, [as a combination of single Phase 1 and Phase 2 encryption algorithms, integrity algorithms, and DH group numbers.](https://cloud.google.com/network-connectivity/docs/vpn/how-to/creating-ha-vpn)
+  * Configure AES-256, SHA-2 and DH group 2, [as a combination of single Phase 1 and Phase 2 encryption algorithms, integrity algorithms, and DH group numbers.](https://cloud.google.com/network-connectivity/docs/vpn/how-to/creating-ha-vpn)
 * Download the AWS configuration files for the generic device type.
 * Create four VPN tunnels on the HA VPN gateway.
 * Configure BGP sessions on the Cloud Router using the BGP IP addresses from the downloaded AWS configuration files.
@@ -62,7 +62,7 @@ https://cloud.google.com/vpn/docs/how-to/creating-ha-vpn
 |------|-------------|------|---------|:--------:|
 | transit\_gateway\_id | AWS Transit Gateway ID | `string` | n/a | yes |
 | amazon\_side\_asn | BGP ASN Number for the AWS side of the VPN | `number` | `64512` | no |
-| aws\_vpn\_configs | AWS Tunnels Configs for aws\_vpn\_connection. This addresses this [known issue](https://cloud.google.com/network-connectivity/docs/vpn/how-to/creating-ha-vpn). AWS defaults have been set as described in this [AWS FAQ](https://aws.amazon.com/vpn/faqs/) | `map(any)` | <pre>{<br>  "dh_group_numbers": [<br>    "2"<br>  ],<br>  "encryption_algorithms": [<br>    "AES128"<br>  ],<br>  "integrity_algorithms": [<br>    "SHA1"<br>  ]<br>}</pre> | no |
+| aws\_vpn\_configs | AWS Tunnels Configs for aws\_vpn\_connection. This addresses this [known issue](https://cloud.google.com/network-connectivity/docs/vpn/how-to/creating-ha-vpn). | `map(any)` | <pre>{<br>  "dh_group_numbers": [<br>    "2"<br>  ],<br>  "encryption_algorithms": [<br>    "AES256"<br>  ],<br>  "integrity_algorithms": [<br>    "SHA2-256"<br>  ]<br>}</pre> | no |
 | google\_network | Google VPN Network name, can be either a name or a self\_link | `string` | `"default"` | no |
 | google\_side\_asn | BGP ASN Number for the Google side of the VPN | `number` | `65534` | no |
 | router\_advertise\_config | Router custom advertisement configuration, ip\_ranges is a map of address ranges and descriptions. More info can be found here https://www.terraform.io/docs/providers/google/r/compute_router.html#bgp (Default:  null) | <pre>object({<br>    groups    = list(string)<br>    ip_ranges = map(string)<br>    mode      = string<br>  })</pre> | `null` | no |
