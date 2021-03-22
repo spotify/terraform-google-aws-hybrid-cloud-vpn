@@ -69,10 +69,10 @@ resource "google_compute_ha_vpn_gateway" "gateway" {
   network  = var.google_network
 }
 
-# Can't loop the cgw because TF erros with : Terraform value depends on resource attributes that cannot be determined
+# Can't loop the cgw because TF errors with : Terraform value depends on resource attributes that cannot be determined
 # until apply, so Terraform cannot predict how many instances will be created.
 # We know for each GW there will always be 2 interfaces so maybe a map of alpha/beta if we want a loop. For now
-# I'm leaving as seperate resources.
+# I'm leaving as separate resources.
 
 resource "aws_customer_gateway" "cgw-alpha" {
   bgp_asn    = var.google_side_asn
@@ -97,9 +97,21 @@ resource "aws_customer_gateway" "cgw-beta" {
 // TODO Track this Issue and implement when ready https://github.com/terraform-providers/terraform-provider-aws/issues/11584
 
 resource "aws_vpn_connection" "vpn-alpha" {
-  customer_gateway_id = aws_customer_gateway.cgw-alpha.id
-  transit_gateway_id  = var.transit_gateway_id
-  type                = aws_customer_gateway.cgw-alpha.type
+  customer_gateway_id                  = aws_customer_gateway.cgw-alpha.id
+  transit_gateway_id                   = var.transit_gateway_id
+  type                                 = aws_customer_gateway.cgw-alpha.type
+  tunnel1_phase1_encryption_algorithms = var.aws_vpn_configs.encryption_algorithms
+  tunnel2_phase1_encryption_algorithms = var.aws_vpn_configs.encryption_algorithms
+  tunnel1_phase1_integrity_algorithms  = var.aws_vpn_configs.integrity_algorithms
+  tunnel2_phase1_integrity_algorithms  = var.aws_vpn_configs.integrity_algorithms
+  tunnel1_phase1_dh_group_numbers      = var.aws_vpn_configs.dh_group_numbers
+  tunnel2_phase1_dh_group_numbers      = var.aws_vpn_configs.dh_group_numbers
+  tunnel1_phase2_encryption_algorithms = var.aws_vpn_configs.encryption_algorithms
+  tunnel2_phase2_encryption_algorithms = var.aws_vpn_configs.encryption_algorithms
+  tunnel1_phase2_integrity_algorithms  = var.aws_vpn_configs.integrity_algorithms
+  tunnel2_phase2_integrity_algorithms  = var.aws_vpn_configs.integrity_algorithms
+  tunnel1_phase2_dh_group_numbers      = var.aws_vpn_configs.dh_group_numbers
+  tunnel2_phase2_dh_group_numbers      = var.aws_vpn_configs.dh_group_numbers
 
   tags = {
     "Name" = "vpn-to-google-alpha-${local.suffix}"
@@ -107,9 +119,21 @@ resource "aws_vpn_connection" "vpn-alpha" {
 }
 
 resource "aws_vpn_connection" "vpn-beta" {
-  customer_gateway_id = aws_customer_gateway.cgw-beta.id
-  transit_gateway_id  = var.transit_gateway_id
-  type                = aws_customer_gateway.cgw-beta.type
+  customer_gateway_id                  = aws_customer_gateway.cgw-beta.id
+  transit_gateway_id                   = var.transit_gateway_id
+  type                                 = aws_customer_gateway.cgw-beta.type
+  tunnel1_phase1_encryption_algorithms = var.aws_vpn_configs.encryption_algorithms
+  tunnel2_phase1_encryption_algorithms = var.aws_vpn_configs.encryption_algorithms
+  tunnel1_phase1_integrity_algorithms  = var.aws_vpn_configs.integrity_algorithms
+  tunnel2_phase1_integrity_algorithms  = var.aws_vpn_configs.integrity_algorithms
+  tunnel1_phase1_dh_group_numbers      = var.aws_vpn_configs.dh_group_numbers
+  tunnel2_phase1_dh_group_numbers      = var.aws_vpn_configs.dh_group_numbers
+  tunnel1_phase2_encryption_algorithms = var.aws_vpn_configs.encryption_algorithms
+  tunnel2_phase2_encryption_algorithms = var.aws_vpn_configs.encryption_algorithms
+  tunnel1_phase2_integrity_algorithms  = var.aws_vpn_configs.integrity_algorithms
+  tunnel2_phase2_integrity_algorithms  = var.aws_vpn_configs.integrity_algorithms
+  tunnel1_phase2_dh_group_numbers      = var.aws_vpn_configs.dh_group_numbers
+  tunnel2_phase2_dh_group_numbers      = var.aws_vpn_configs.dh_group_numbers
 
   tags = {
     "Name" = "vpn-to-google-beta-${local.suffix}"
@@ -174,7 +198,7 @@ resource "google_compute_vpn_tunnel" "tunnels" {
   description                     = "Tunnel to AWS - HA VPN interface ${each.key} to AWS interface ${each.value.tunnel_address}"
   router                          = google_compute_router.router.self_link
   ike_version                     = 2
-  shared_secret                   = each.value.shared_secret #local.external_vpn_gateway_interfaces[0].shared_secret #aws_vpn_connection.vpn-alpha.tunnel1_preshared_key
+  shared_secret                   = each.value.shared_secret
   vpn_gateway                     = google_compute_ha_vpn_gateway.gateway.self_link
   vpn_gateway_interface           = each.value.vpn_gateway_interface
   peer_external_gateway           = google_compute_external_vpn_gateway.external_gateway.self_link
@@ -186,7 +210,7 @@ resource "google_compute_router_interface" "interfaces" {
   for_each   = local.external_vpn_gateway_interfaces
   name       = "interface${each.key}-${google_compute_router.router.name}"
   router     = google_compute_router.router.name
-  ip_range   = each.value.cgw_inside_address #"${aws_vpn_connection.vpn-alpha.tunnel1_cgw_inside_address}/30" #"169.254.0.1/30"
+  ip_range   = each.value.cgw_inside_address
   vpn_tunnel = google_compute_vpn_tunnel.tunnels[each.key].name
 }
 
@@ -195,7 +219,7 @@ resource "google_compute_router_peer" "router_peers" {
   for_each        = local.external_vpn_gateway_interfaces
   name            = "peer${each.key}-${google_compute_router.router.name}"
   router          = google_compute_router.router.name
-  peer_ip_address = each.value.vgw_inside_address #aws_vpn_connection.vpn-alpha.tunnel1_vgw_inside_address #"169.254.0.2"
-  peer_asn        = each.value.asn                #aws_vpn_connection.vpn-alpha.tunnel1_bgp_asn # aws_customer_gateway.cgw-alpha.bgp_asn #aws_vpn_connection.vpn-alpha.tunnel1_bgp_asn #64515
+  peer_ip_address = each.value.vgw_inside_address
+  peer_asn        = each.value.asn
   interface       = google_compute_router_interface.interfaces[each.key].name
 }
