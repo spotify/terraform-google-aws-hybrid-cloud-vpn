@@ -35,7 +35,7 @@ variable "aws_vpn_configs" {
   default = {
     encryption_algorithms = ["AES256"]
     integrity_algorithms  = ["SHA2-256"]
-    dh_group_numbers      = ["2"]
+    dh_group_numbers      = ["18"]
   }
 }
 
