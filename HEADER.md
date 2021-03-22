@@ -4,7 +4,7 @@ Overview of high-level configurations steps to set up HA VPN with Amazon Web Ser
 * Create the HA VPN gateway and a Cloud Router. This creates 2 public IP addresses on the GCP side.
 * Create two AWS Virtual Private Gateways. This creates 4 public addresses on the AWS side.
 * Create two AWS Site-to-Site VPN connections and customer gateways, one for each AWS Virtual Private Gateway. Specify a non-overlapping link-local Tunnel IP Range for each tunnel, 4 total. For example, 169.254.1.4/30.
-  * Configure AES-256, SHA-2 and DH group 2, [as a combination of single Phase 1 and Phase 2 encryption algorithms, integrity algorithms, and DH group numbers.](https://cloud.google.com/network-connectivity/docs/vpn/how-to/creating-ha-vpn)
+  * Configure AES-256, SHA-2 and DH group 18, [as a combination of single Phase 1 and Phase 2 encryption algorithms, integrity algorithms, and DH group numbers.](https://cloud.google.com/network-connectivity/docs/vpn/how-to/creating-ha-vpn)
 * Download the AWS configuration files for the generic device type.
 * Create four VPN tunnels on the HA VPN gateway.
 * Configure BGP sessions on the Cloud Router using the BGP IP addresses from the downloaded AWS configuration files.
