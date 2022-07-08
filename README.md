@@ -35,44 +35,65 @@ module "cb-us-east-1" {
 }
 ```
 
-### Refrence Docs  
-https://cloud.google.com/files/CloudVPNGuide-UsingCloudVPNwithAmazonWebServices.pdf  
+### Refrence Docs
+https://cloud.google.com/files/CloudVPNGuide-UsingCloudVPNwithAmazonWebServices.pdf
 https://cloud.google.com/vpn/docs/how-to/creating-ha-vpn
 
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| aws | <4.0,>= 3.22.0 |
-| google | <4.0,>= 3.11.0 |
-| google-beta | <4.0,>= 3.11.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 3.22.0 |
+| <a name="requirement_google"></a> [google](#requirement\_google) | >= 3.11.0 |
+| <a name="requirement_google-beta"></a> [google-beta](#requirement\_google-beta) | >= 3.11.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| aws | <4.0,>= 3.22.0 |
-| google | <4.0,>= 3.11.0 |
-| google-beta | <4.0,>= 3.11.0 |
-| random | n/a |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.22.0 |
+| <a name="provider_google"></a> [google](#provider\_google) | >= 3.11.0 |
+| <a name="provider_google-beta"></a> [google-beta](#provider\_google-beta) | >= 3.11.0 |
+| <a name="provider_random"></a> [random](#provider\_random) | n/a |
+
+## Modules
+
+No modules.
+
+## Resources
+
+| Name | Type |
+|------|------|
+| [aws_customer_gateway.cgw-alpha](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/customer_gateway) | resource |
+| [aws_customer_gateway.cgw-beta](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/customer_gateway) | resource |
+| [aws_vpn_connection.vpn-alpha](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpn_connection) | resource |
+| [aws_vpn_connection.vpn-beta](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpn_connection) | resource |
+| [google-beta_google_compute_external_vpn_gateway.external_gateway](https://registry.terraform.io/providers/hashicorp/google-beta/latest/docs/resources/google_compute_external_vpn_gateway) | resource |
+| [google-beta_google_compute_ha_vpn_gateway.gateway](https://registry.terraform.io/providers/hashicorp/google-beta/latest/docs/resources/google_compute_ha_vpn_gateway) | resource |
+| [google-beta_google_compute_router.router](https://registry.terraform.io/providers/hashicorp/google-beta/latest/docs/resources/google_compute_router) | resource |
+| [google-beta_google_compute_router_interface.interfaces](https://registry.terraform.io/providers/hashicorp/google-beta/latest/docs/resources/google_compute_router_interface) | resource |
+| [google-beta_google_compute_router_peer.router_peers](https://registry.terraform.io/providers/hashicorp/google-beta/latest/docs/resources/google_compute_router_peer) | resource |
+| [google-beta_google_compute_vpn_tunnel.tunnels](https://registry.terraform.io/providers/hashicorp/google-beta/latest/docs/resources/google_compute_vpn_tunnel) | resource |
+| [random_string.suffix](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string) | resource |
+| [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
+| [google_project.project](https://registry.terraform.io/providers/hashicorp/google/latest/docs/data-sources/project) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| transit\_gateway\_id | AWS Transit Gateway ID | `string` | n/a | yes |
-| amazon\_side\_asn | BGP ASN Number for the AWS side of the VPN | `number` | `64512` | no |
-| aws\_vpn\_configs | AWS Tunnels Configs for aws\_vpn\_connection. This addresses this [known issue](https://cloud.google.com/network-connectivity/docs/vpn/how-to/creating-ha-vpn). | `map(any)` | <pre>{<br>  "dh_group_numbers": [<br>    "18"<br>  ],<br>  "encryption_algorithms": [<br>    "AES256"<br>  ],<br>  "integrity_algorithms": [<br>    "SHA2-256"<br>  ]<br>}</pre> | no |
-| google\_network | Google VPN Network name, can be either a name or a self\_link | `string` | `"default"` | no |
-| google\_side\_asn | BGP ASN Number for the Google side of the VPN | `number` | `65534` | no |
-| router\_advertise\_config | Router custom advertisement configuration, ip\_ranges is a map of address ranges and descriptions. More info can be found here https://www.terraform.io/docs/providers/google/r/compute_router.html#bgp (Default:  null) | <pre>object({<br>    groups    = list(string)<br>    ip_ranges = map(string)<br>    mode      = string<br>  })</pre> | `null` | no |
-| suffix | String to identify groups resources created by this module. This allow the module to be called multiple times in the same GCP Project and AWS account. dev/staging/prod are examples inputs. If not passed a 10 character random string will be assigned | `string` | `"null"` | no |
+| <a name="input_transit_gateway_id"></a> [transit\_gateway\_id](#input\_transit\_gateway\_id) | AWS Transit Gateway ID | `string` | n/a | yes |
+| <a name="input_amazon_side_asn"></a> [amazon\_side\_asn](#input\_amazon\_side\_asn) | BGP ASN Number for the AWS side of the VPN | `number` | `64512` | no |
+| <a name="input_aws_vpn_configs"></a> [aws\_vpn\_configs](#input\_aws\_vpn\_configs) | AWS Tunnels Configs for aws\_vpn\_connection. This addresses this [known issue](https://cloud.google.com/network-connectivity/docs/vpn/how-to/creating-ha-vpn). | `map(any)` | <pre>{<br>  "dh_group_numbers": [<br>    "18"<br>  ],<br>  "encryption_algorithms": [<br>    "AES256"<br>  ],<br>  "integrity_algorithms": [<br>    "SHA2-256"<br>  ]<br>}</pre> | no |
+| <a name="input_google_network"></a> [google\_network](#input\_google\_network) | Google VPN Network name, can be either a name or a self\_link | `string` | `"default"` | no |
+| <a name="input_google_side_asn"></a> [google\_side\_asn](#input\_google\_side\_asn) | BGP ASN Number for the Google side of the VPN | `number` | `65534` | no |
+| <a name="input_router_advertise_config"></a> [router\_advertise\_config](#input\_router\_advertise\_config) | Router custom advertisement configuration, ip\_ranges is a map of address ranges and descriptions. More info can be found here https://www.terraform.io/docs/providers/google/r/compute_router.html#bgp (Default:  null) | <pre>object({<br>    groups    = list(string)<br>    ip_ranges = map(string)<br>    mode      = string<br>  })</pre> | `null` | no |
+| <a name="input_suffix"></a> [suffix](#input\_suffix) | String to identify groups resources created by this module. This allow the module to be called multiple times in the same GCP Project and AWS account. dev/staging/prod are examples inputs. If not passed a 10 character random string will be assigned | `string` | `"null"` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| cloud\_router | Map of cloud router attributes. Map should match the exported resources described in the docs https://www.terraform.io/docs/providers/google/r/compute_router.html |
-| ha\_vpn\_gateway\_interfaces | List of objects with interface ID and IP addresses |
-| transit\_gateway\_attachment\_ids | Set of AWS Transit Gateway Attachement IDs |
-
+| <a name="output_cloud_router"></a> [cloud\_router](#output\_cloud\_router) | Map of cloud router attributes. Map should match the exported resources described in the docs https://www.terraform.io/docs/providers/google/r/compute_router.html |
+| <a name="output_ha_vpn_gateway_interfaces"></a> [ha\_vpn\_gateway\_interfaces](#output\_ha\_vpn\_gateway\_interfaces) | List of objects with interface ID and IP addresses |
+| <a name="output_transit_gateway_attachment_ids"></a> [transit\_gateway\_attachment\_ids](#output\_transit\_gateway\_attachment\_ids) | Set of AWS Transit Gateway Attachement IDs |
